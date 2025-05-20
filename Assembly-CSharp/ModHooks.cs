@@ -25,7 +25,7 @@ namespace Modding
     public class ModHooks
     {
         // Make sure this is in sync with `/moddingapi.version`.
-        private const int _modVersion = 74;
+        private const int _modVersion = 75;
 
         private static readonly string SettingsPath = Path.Combine(Application.persistentDataPath, "ModdingApi.GlobalSettings.json");
 
@@ -255,7 +255,7 @@ namespace Modding
         /// <summary>
         ///     Called whenever game tries to show cursor
         /// </summary>
-        internal static void OnCursor(GameManager gm)
+        internal static void OnCursor(GameManager gm, Action<bool> SetCursorVisible, bool controllerPressed)
         {
             Cursor.lockState = CursorLockMode.None;
 
@@ -265,13 +265,7 @@ namespace Modding
                 return;
             }
 
-            if (gm.isPaused)
-            {
-                Cursor.visible = true;
-                return;
-            }
-
-            Cursor.visible = false;
+            SetCursorVisible(gm.isPaused && !controllerPressed);
         }
 
 
