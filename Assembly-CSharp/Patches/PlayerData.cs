@@ -185,42 +185,34 @@ namespace Modding.Patches
             ModHooks.SetPlayerVariable<T>(varName, value, this);
         }
 
-        private void TakeHealthInternal(int amount)
-        {
-            if (amount > 0 && GetInt(nameof(health)) == GetInt(nameof(maxHealth)) && GetInt(nameof(health)) != CurrentMaxHealth)
-            {
-                SetInt(nameof(health), CurrentMaxHealth);
-            }
-
-            if (GetInt(nameof(healthBlue)) > 0)
-            {
-                int num = amount - GetInt(nameof(healthBlue));
-                SetBool(nameof(damagedBlue), true);
-                SetInt(nameof(healthBlue), GetInt(nameof(healthBlue)) - amount);
-
-                if (GetInt(nameof(healthBlue)) < 0)
-                {
-                    SetInt(nameof(healthBlue), 0);
-                }
-
-                if (num > 0)
-                {
-                    TakeHealthInternal(num);
-                    return;
-                }
-            } else {
-                SetBool(nameof(damagedBlue), false);
-
-                if (GetInt(nameof(health)) - amount <= 0)
-                {
-                    SetInt(nameof(health), 0);
-                    return;
-                }
-
-                SetInt(nameof(health), GetInt(nameof(health)) - amount);
-            }
-        }
-
+	private void TakeHealthInternal(int amount)
+	{
+		if (amount > 0 && GetInt(nameof(health)) == GetInt(nameof(maxHealth)) && GetInt(nameof(health)) != CurrentMaxHealth)
+			SetInt(nameof(health), CurrentMaxHealth);
+		if (GetInt(nameof(healthBlue)) > 0)
+		{
+			int num = amount - GetInt(nameof(healthBlue));
+			SetBool(nameof(damagedBlue), true);
+			SetInt(nameof(healthBlue), GetInt(nameof(healthBlue)) - amount);
+			if (GetInt(nameof(healthBlue)) < 0)
+				SetInt(nameof(healthBlue), 0);
+			if (num > 0)
+			{
+				TakeHealthInternal(num);
+				return;
+			}
+		}
+		else
+		{
+			SetBool(nameof(damagedBlue), false);
+			if (GetInt(nameof(health)) - amount <= 0)
+			{
+				SetInt(nameof(health), 0);
+				return;
+			}
+			SetInt(nameof(health), GetInt(nameof(health)) - amount);
+		}
+	}
         [MonoModReplace]
         public void TakeHealth(int amount)
         {
