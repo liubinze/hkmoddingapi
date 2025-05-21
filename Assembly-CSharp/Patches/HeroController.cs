@@ -141,7 +141,7 @@ namespace Modding.Patches
                     this.cState.upAttacking = true;
                     if (this.playerData.GetBool(nameof(PlayerData.equippedCharm_35)))
                     {
-                        if ((this.playerData.health >= this.playerData.CurrentMaxHealth && !this.playerData.equippedCharm_27) || (this.joniBeam && this.playerData.equippedCharm_27))
+                        if ((this.playerData.GetInt(nameof(PlayerData.health)) >= this.playerData.CurrentMaxHealth && !this.playerData.GetBool(nameof(PlayerData.equippedCharm_27))) || (this.joniBeam && this.playerData.GetBool(nameof(PlayerData.equippedCharm_27))))
                         {
                             this.grubberFlyBeam = this.grubberFlyBeamPrefabU.Spawn(this.transform.position);
                             this.grubberFlyBeam.transform.SetScaleY(this.transform.localScale.x);
