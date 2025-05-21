@@ -21,24 +21,24 @@ namespace Modding.Patches
         [MonoModIgnore]
         private GameManager gm;
 
-		[MonoModIgnore]
-		private extern void SetCursorVisible(bool value);
+        [MonoModIgnore]
+        private extern void SetCursorVisible(bool value);
         // Reverted cursor behavior
         [MonoModReplace]
-	public void OnGUI()
-	{
-		Cursor.lockState = CursorLockMode.None;
-		if (this.isTitleScreenScene)
-		{
-			this.SetCursorVisible(false);
-			return;
-		}
-		if (!this.isMenuScene)
-		{
-			ModHooks.OnCursor(gm, this.SetCursorVisible, this.controllerPressed);
-			return;
-		}
-		this.SetCursorVisible(!this.controllerPressed);
-	}
+        public void OnGUI()
+        {
+            Cursor.lockState = CursorLockMode.None;
+            if (this.isTitleScreenScene)
+            {
+                this.SetCursorVisible(false);
+                return;
+            }
+            if (!this.isMenuScene)
+            {
+                ModHooks.OnCursor(gm, this.SetCursorVisible, this.controllerPressed);
+                return;
+            }
+            this.SetCursorVisible(!this.controllerPressed);
+        }
     }
 }
